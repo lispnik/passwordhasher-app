@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Password Hash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- build:css styles/styles.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap.css/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap.css/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="styles/app.css">
+    <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="scripts/sha1.js"></script>
+    <script src="scripts/passhash.js"></script>
+    <script src="scripts/app.js"></script>
+    <!-- endbuild -->
+</head>
+<body ng-app="passhashApp" ng-controller="MainCtrl">
+<form>
+    <fieldset>
+        <legend>Password Hasher</legend>
+
+        <label for="sitetag">Site Tag</label>
+        <input id="sitetag" type="text" ng-model="model.sitetag" ng-required>
+
+        <label for="masterkey">Master Key</label>
+        <input id="masterkey" type="password" ng-model="model.masterkey" autocomplete="off" ng-required>
+
+        <label for="hashword">Hash Word</label>
+        <input id="hashword" type="text" ng-model="model.hashword" autocomplete="off">
+
+        <div class="control-group">
+            <button class="btn" id="bump" ng-click="bump()" ng-disabled="!model.sitetag">Bump</button>
+            <button class="btn" id="unmask" ng-click="unmask()" ng-disabled="!model.masterkey">Unmask</button>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Size</legend>
+        <select id="size" ng-model="model.hashwordsize" ng-required ng-options="s for s in hashwordsizes"></select>
+        <!--<input id="size" type="number" ng-model="model.hashwordsize" ng-required>-->
+    </fieldset>
+
+    <fieldset>
+        <legend>Requirements</legend>
+        <label class="checkbox" for="digit">
+            <input id="digit" type="checkbox" ng-model="model.requirements.digit"
+                   ng-disabled="model.restrictions.digitsonly">
+            Digit
+        </label>
+
+        <label class="checkbox" for="punctuation">
+            <input id="punctuation" type="checkbox" ng-model="model.requirements.punctuation"
+                   ng-disabled="model.restrictions.nospecial || model.restrictions.digitsonly">
+            Punctuation
+        </label>
+        <label class="checkbox" for="mixedcase">
+            <input id="mixedcase" type="checkbox" ng-model="model.requirements.mixedcase"
+                   ng-disabled="model.restrictions.digitsonly">
+            Mixed Case
+        </label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Restrictions</legend>
+        <label class="checkbox" for="nospecial">
+            <input id="nospecial" type="checkbox" ng-model="model.restrictions.nospecial"
+                   ng-disabled="model.restrictions.digitsonly">
+            No Special
+        </label>
+        <label class="checkbox" for="digitsonly">
+            <input id="digitsonly" type="checkbox" ng-model="model.restrictions.digitsonly">
+            Digits Only
+        </label>
+    </fieldset>
+
+</form>
+</body>
+</html>
